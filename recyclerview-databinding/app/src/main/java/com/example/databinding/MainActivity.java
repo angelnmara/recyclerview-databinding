@@ -1,7 +1,13 @@
 package com.example.databinding;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,15 +31,21 @@ public class MainActivity extends AppCompatActivity implements androidx.appcompa
   private ArticuloDataAdapter articuloDataAdapter;
 
   androidx.appcompat.widget.SearchView svBuscaArticulo;
+  RecyclerView recyclerView;
+
+  Context context;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    context = this;
+
     ActivityMainBinding activityMainBinding =
         DataBindingUtil.setContentView(this, R.layout.activity_main);
 
     // bind RecyclerView
-    RecyclerView recyclerView = activityMainBinding.viewEmployees;
+    recyclerView = activityMainBinding.viewEmployees;
     recyclerView.setLayoutManager(new LinearLayoutManager(this));
     recyclerView.setHasFixedSize(true);
 
@@ -49,6 +61,23 @@ public class MainActivity extends AppCompatActivity implements androidx.appcompa
 
     svBuscaArticulo = findViewById(R.id.svBuscaArticulo);
     svBuscaArticulo.setOnQueryTextListener(this);
+
+    // Get the search close button image view
+    ImageView closeButton = (ImageView)svBuscaArticulo.findViewById(R.id.search_close_btn);
+
+    // Set on click listener
+    closeButton.setOnClickListener(new View.OnClickListener() {
+
+      @Override
+      public void onClick(View v) {
+        //Log.d("", "Search close button clicked");
+        //Toast.makeText(context, "click", Toast.LENGTH_LONG).show();
+        EditText et = (EditText) findViewById(R.id.search_src_text);
+        et.setText("");
+        getAllArticulo("");
+        recyclerView.setVisibility(View.INVISIBLE);
+      }
+    });
 
     //getAllEmployee();
   }
@@ -74,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements androidx.appcompa
   @Override
   public boolean onQueryTextSubmit(String query) {
     getAllArticulo(query);
+    recyclerView.setVisibility(View.VISIBLE);
     return false;
   }
 

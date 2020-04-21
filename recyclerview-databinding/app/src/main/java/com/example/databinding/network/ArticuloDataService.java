@@ -8,7 +8,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface ArticuloDataService {
-    @GET("v3/plp?force-plp=true&page-number=1&number-of-items-per-page=20")
+    @GET("v3/plp?force-plp=true&page-number=1&number-of-items-per-page=50")
     //&search-string=xbox
     Call<ArticuloDBResponse> getArticulos(@Query("search-string") String articulo);
 }

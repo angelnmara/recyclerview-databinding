@@ -58,7 +58,7 @@ public class Articulo {
                 /*.setDefaultRequestOptions(new RequestOptions()
                         .circleCrop())*/
                 .load(imageURL)
-                .placeholder(R.drawable.loading)
+                //.placeholder(R.drawable.loading)
                 .into(imageView);
     }
 }
